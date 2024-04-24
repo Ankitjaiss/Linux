@@ -1,0 +1,227 @@
+touch topic4commands.txt
+Description: This command creates a file named topic4commands.txt.
+Example: Running touch topic4commands.txt in an empty directory and then listing files with ls would show: topic4commands.txt
+
+ls -r
+Description: Lists directory contents in reverse order.
+Example: If ls shows a b c, then ls -r would show c b a.
+Sample Output:
+c
+b
+a
+
+man ls
+Description: Displays the manual page for the ls command.
+Example: Running man ls shows detailed documentation on how to use the ls command, including options and examples.
+
+ls | more
+Description: Pipes the output of ls into more, allowing for page-by-page scrolling.
+Example: If ls outputs many lines, ls | more lets you scroll through the output a page at a time.
+Sample Output: (Output will vary based on directory contents and is subject to interactive scrolling.)
+
+ls | pg
+Description: Similar to ls | more, but pg is a less common command and might not be available on all systems.
+Example: Usage would be similar to more, providing paginated output.
+Sample Output: (Output will vary based on directory contents and is subject to interactive scrolling.)
+
+ls -t
+Description: Lists files sorted by modification time, newest first.
+Example: If you have files a, b, and c with c being the newest, ls -t would list them as c a b.
+Sample Output:
+c
+a
+b
+
+ls -rt
+Description: Combines -r and -t, listing files by modification time, oldest first.
+Example: With files a, b, and c where c is the newest, ls -rt would list them as b a c.
+Sample Output:
+b
+a
+c
+
+ls -a
+Description: Lists all entries including hidden files (those starting with .).
+Example: ls -a might show . .. .hidden file.txt, including the current directory (.), parent directory (..), and any hidden files.
+Sample Output:
+.
+..
+.hidden file.txt
+
+ls -A
+Description: Similar to ls -a but does not list the implied entries . and ...
+Example: ls -A could display .hidden file.txt, showing hidden files but excluding . and ...
+Sample Output:
+.hidden file.txt
+
+ls -F
+Description: Appends a character to each file name indicating the file type. For example, / for directories, * for executables.
+Example: ls -F might show directory/ executable* file.txt.
+Sample Output:
+directory/
+executable*
+file.txt
+
+ls -f
+Description: Lists files and directories in the order they appear in the directory, without sorting, and enables -a.
+Example: ls -f could output .hidden file.txt directory, in no particular order.
+Sample Output:
+.hidden file.txt
+directory
+
+ls -i
+Description: Displays the inode number of each file along with its name.
+Example: ls -i might show 1234567 file.txt, where 1234567 is the inode number for file.txt.
+Sample Output:
+1234567 file.txt
+
+ls -R
+Description: Lists directories recursively, showing all subdirectories and their contents.
+Example: If topic4 contains subdir, ls -R topic4/ would list the contents of topic4 and then subdir.
+Sample Output: (Output will vary based on directory structure and contents.)
+
+ls -s
+Description: Displays the size of each file in blocks along with its name.
+Example: ls -s might show 8 file.txt, indicating file.txt is 8 blocks in size.
+Sample Output:
+8 file.txt
+
+ls -h
+Description: When used with -l or -s, displays file sizes in a human-readable format (e.g., KB, MB).
+Example: ls -lh could show 1K file.txt, indicating the file size is approximately 1 kilobyte.
+Sample Output:
+1K file.txt
+
+history
+Description: Displays the command history. Mentioned again here because it's the final command in your list, indicating a request to explain itself.
+Example: Running history at this point would include all the commands listed from 1 to 43, showing the sequence of operations performed.
+Sample Output: (Output will vary based on the user's command history.)
+
+ls /dev | less
+Description: Pipes the output of ls /dev into less, allowing for page-by-page scrolling through device files.
+Example: If ls /dev outputs many lines, using ls /dev | less lets you scroll through the device files a page at a time. Sample output might not be applicable as it depends on interactive scrolling, but it would typically start with device files like /dev/null, /dev/tty, etc.
+
+ls /dev | more
+Description: Similar to ls /dev | less, but uses more for page-by-page scrolling through device files.
+Example: Usage would be similar to less, providing paginated output for the device files listed by ls /dev. Sample output might not be applicable as it depends on interactive scrolling, but it would typically start with device files like /dev/null, /dev/tty, etc.
+
+ls /dev | head -5
+Description: Pipes the output of ls /dev into head, displaying only the first 5 entries of device files.
+Example: If ls /dev shows a list of device files, ls /dev | head -5 would only show the first 5 device files.
+Sample Output:
+null
+tty
+tty0
+tty1
+tty2
+
+ls /dev | tail -5
+Description: Pipes the output of ls /dev into tail, displaying only the last 5 entries of device files.
+Example: If ls /dev shows a list of device files, ls /dev | tail -5 would only show the last 5 device files.
+Sample Output:
+ttyS27
+ttyS28
+ttyS29
+ttyS30
+ttyS31
+
+
+date
+Description: Displays the current date and time.
+Example: Running date might show Tue Mar 9 08:42:18 UTC 2021.
+Sample Output:
+Tue Mar 9 08:42:18 UTC 2021
+
+date +%T
+Description: Displays the current time in 24-hour format (HH:MM:SS).
+Example: date +%T might show 14:55:02.
+Sample Output:
+14:55:02
+
+date +%d
+Description: Displays the current day of the month (01 to 31).
+Example: date +%d might show 09 if it's the 9th day of the month.
+Sample Output:
+09
+
+date +%m
+Description: Displays the current month of the year (01 to 12).
+Example: date +%m might show 03 for March.
+Sample Output:
+03
+
+date +%y
+Description: Displays the last two digits of the current year.
+Example: date +%y might show 21 for the year 2021.
+Sample Output:
+21
+
+date +%Y
+Description: Displays the full four-digit year.
+Example: date +%Y might show 2021.
+Sample Output:
+2021
+
+date +%H
+Description: Displays the current hour in 24-hour format (00 to 23).
+Example: date +%H might show 14 if it's 2 PM.
+Sample Output:
+14
+
+date +%M
+Description: Displays the current minute (00 to 59).
+Example: date +%M might show 55 if it's 55 minutes past the hour.
+Sample Output:
+55
+
+date +%S
+Description: Displays the current second (00 to 59).
+Example: date +%S might show 02.
+Sample Output:
+02
+
+date +%d-%m-%y
+Description: Displays the current date in DD-MM-YY format.
+Example: date +%d-%m-%y might show 09-03-21.
+Sample Output:
+09-03-21
+
+touch "ankit$(date +%d-%m-%y).log"
+Description: Creates a log file with the current date in DD-MM-YY format in its name.
+Example: touch "ankit$(date +%d-%m-%y).log" might create a file named ankit09-03-21.log.
+Sample Output:
+(File ankit09-03-21.log is created)
+
+touch "ankit$(date +%d%m%Y%H%M%S).log"
+Description: Creates a log file with the current date and time in DDMMYYYYHHMMSS format in its name.
+Example: touch "ankit$(date +%d%m%Y%H%M%S).log" might create a file named ankit09032021145502.log.
+Sample Output:
+(File ankit09032021145502.log is created)
+ls -atrisl
+Description: Lists files and directories in the current directory with detailed information, including hidden files.
+Example: ls -atrisl might show a detailed list of files and directories.
+Sample Output:
+total 64
+  131073 4 drwxr-xr-x  3 user  staff   96 Mar  9 15:55 .
+  131072 4 drwxr-xr-x  3 user  staff   96 Mar  9 15:55 ..
+  131074 0 -rw-r--r--  1 user  staff    0 Mar  9 15:55 ankit09032021145502.log
+  131075 0 -rw-r--r--  1 user  staff    0 Mar  9 15:55 ankit09-03-21.log
+Sample Output:
+total 64
+  131073 4 drwxr-xr-x  3 user  staff   96 Mar  9 15:55 .
+  131072 4 drwxr-xr-x  3 user  staff   96 Mar  9 15:55 ..
+  131074 0 -rw-r--r--  1 user  staff    0 Mar  9 15:55 ankit09032021145502.log
+  131075 0 -rw-r--r--  1 user  staff    0 Mar  9 15:55 ankit09-03-21.log
+
+ls -latr
+Sample Output:
+total 64
+  131073 4 drwxr-xr-x  3 user  staff   96 Mar   9 15:55 .
+  131072 4 drwxr-xr-x  3 user  staff   96 Mar   9 15:55 ..
+  131074 0 -rw-r--r--  1 user  staff    0 Mar   9 15:55 ankit09032021145502.log
+  131075 0 -rw-r--r--  1 user  staff    0 Mar   9 15:55 ankit09-03-21.log
+
+
+
+
+

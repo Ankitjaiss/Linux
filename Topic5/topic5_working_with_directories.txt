@@ -1,0 +1,68 @@
+1
+
+- **mkdir**: Create directories
+  - `mkdir dir1`: Creates a directory named "dir1"
+    - Output: Directory "dir1" created successfully.
+  - `mkdir dir1 dir2 dir3`: Creates directories named "dir1", "dir2", and "dir3"
+    - Output: Directories "dir1", "dir2", "dir3" created successfully.
+  - `mkdir dir1/dir2/dir3`: Creates a nested directory structure "dir1/dir2/dir3"
+    - Output: Nested directory structure "dir1/dir2/dir3" created successfully.
+  - `mkdir -p dir1/dir2/dir3`: Creates nested directories if they do not exist
+    - Output: Nested directories "dir1", "dir2", "dir3" created successfully.
+  - `mkdir dir{1..6}`: Creates directories with names "dir1" to "dir6"
+    - Output: Directories "dir1" to "dir6" created successfully.
+
+- **rmdir**: Remove directories
+  - `rmdir dir1`: Removes the directory "dir1"
+    - Output: Directory "dir1" removed successfully.
+  - `rmdir dir1 dir2 dir3`: Removes directories "dir1", "dir2", and "dir3"
+    - Output: Directories "dir1", "dir2", "dir3" removed successfully.
+
+- **rm**: Remove files or directories
+  - `rm -r dir1`: Removes the directory "dir1" and its contents recursively
+    - Output: Directory "dir1" and its contents removed successfully.
+  - `rm -ri dir1`: Removes the directory "dir1" interactively
+    - Output: Directory "dir1" removed interactively.
+  - `rm -rf dir1`: Removes the directory "dir1" forcefully
+    - Output: Directory "dir1" removed forcefully.
+  - `rm -rv dir1`: Removes the directory "dir1" verbosely
+    - Output: Directory "dir1" removed verbosely.
+  - `rm -r dir*`: Removes directories matching the pattern "dir*"
+    - Output: Directories matching pattern "dir*" removed successfully.
+  - `rm -r dir{2..6}`: Removes directories "dir2" to "dir6"
+    - Output: Directories "dir2" to "dir6" removed successfully.
+  - `rm -r dir[2,4]`: Removes directories "dir2" and "dir4"
+    - Output: Directories "dir2" and "dir4" removed successfully.
+
+- **cp**: Copy files or directories
+  - `cp file1.txt file2.txt`: Copies "file1.txt" to "file2.txt"
+    - Output: File "file1.txt" copied to "file2.txt" successfully.
+  - `cp file1.txt file2.txt file3.txt output`: Copies multiple files to a directory named "output"
+    - Output: Files "file1.txt", "file2.txt", "file3.txt" copied to directory "output" successfully.
+  - `cp dir1/* dir2`: Copies all files from "dir1" to "dir2"
+    - Output: All files from "dir1" copied to "dir2" successfully.
+  - `cp -r dir1 dir2`: Copies "dir1" and its contents to "dir2"
+    - Output: Directory "dir1" and its contents copied to "dir2" successfully.
+
+- **mv**: Move or rename files or directories
+  - `mv file1.txt file2.txt`: Renames "file1.txt" to "file2.txt"
+    - Output: File "file1.txt" renamed to "file2.txt" successfully.
+  - `mv dir1 dir2 (rename b'z dir2 not available)`: Renames "dir1" to "dir2" if "dir2" is not available
+    - Output: Directory "dir1" renamed to "dir2" successfully.
+  - `mv dir1/* dir2`: Moves all files from "dir1" to "dir2"
+    - Output: All files from "dir1" moved to "dir2" successfully.
+  - `mv dir1 dir2 (move dir1 to dir2 because dir2 available)`: Moves "dir1" into "dir2" if "dir2" is available
+    - Output: Directory "dir1" moved into "dir2" successfully.
+
+- **cd**: Change directory
+  - `cd`: Changes to the home directory
+    - Output: Changed to the home directory.
+  - `cd ../../..`: Moves two directories up
+    - Output: Moved two directories up.
+  - `cd /`: Changes to the root directory
+    - Output: Changed to the root directory.
+  - `cd ~`: Changes to the home directory
+    - Output: Changed to the home directory.
+  - `cd -`: Changes to the previous directory
+    - Output: Changed to the previous directory.
+
