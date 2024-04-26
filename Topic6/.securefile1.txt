@@ -1,0 +1,2 @@
+Even by using editors also we can create hidden files.
+We can create hidden directories also just like normal directories.
