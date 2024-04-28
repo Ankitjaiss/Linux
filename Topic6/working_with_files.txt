@@ -1,9 +1,0 @@
-1) Creation of Files
-2) Viewing of Files
-3) Copying of Files
-4) Comparison of Files
-5) Renaming of files
-6) Deleting Files
-7) Creation of Hidden files and directories
-8) Creation of Link Files
-9) Editing of Files

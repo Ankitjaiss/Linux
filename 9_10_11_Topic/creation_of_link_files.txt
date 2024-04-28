@@ -1,0 +1,86 @@
+cd 9Topic/
+ls
+touch creation_of_link_files
+ls
+ln file1.txt file2.txt
+touch file1.txt file2.txt
+ls
+ln file1.txt file2.txt
+rm -rf file2.txt 
+ln file1.txt file2.txt
+ls
+ls file1.txt file2.txt
+ls -a  file1.txt file2.txt
+ls -l  file1.txt file2.txt
+ls -lrt  file1.txt file2.txt
+ls -ltr  file1.txt file2.txt
+ls
+ls file1.txt file2.txt
+ln -s file1.txt file3.txt
+ls
+ln dir1 dir2
+mkdir dir1
+ln dir1 dir2
+ln -s dir1 dir2
+ls -l
+ls -l
+rm -rf dir1 dir2
+ls -l
+mkdir -p dir1/dir2
+ls
+cd dir1/dir2
+ls
+pwd
+ln -s ~9Topic/dir1 dir3
+ls -l
+ls
+cd..
+cd ..
+ls
+cd ..
+ls
+vi file1.txt 
+cat file1.txt 
+wc file1.txt 
+wc -l file1.txt 
+wc -w file1.txt 
+wc -c file1.txt 
+wc -lw file1.txt 
+wc -lc file1.txt 
+wc -wc file1.txt 
+wc -L file1.txt 
+wc -nL file1.txt 
+wc -n -L file1.txt 
+wc -L file1.txt | wc -n
+wc file1.txt file2.txt file3.txt 
+cat >a.txt
+sort a.txt 
+sort -r a.txt 
+cat a.txt
+cat >>a.txt
+cat a.txt
+cat >a.txt
+cat a.txt
+sort a.txt 
+sort -r a.txt 
+cat > a.txt
+sort a.txt 
+sort -n a.txt 
+cat > a.txt
+sort -u a.txt 
+sort -un a.txt 
+sort -ur a.txt 
+sort -un a.txt 
+sort -unr a.txt 
+cat > a.txt
+cat  a.txt
+sort a.txt 
+sort a.txt | tac > sorted.txt
+sort -r a.txt > sorted.txt
+cat  sorted.txt
+sort -ru a.txt > sorted.txt
+cat  sorted.txt
+ls -l /etc | head -10
+cd ~
+pwd
+ls -l /etc | head -1

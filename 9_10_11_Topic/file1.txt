@@ -1,0 +1,293 @@
+#!/bin/ksh
+###########################################################################
+#                                                                            
+#	Script Name: 	execute.ksh
+#
+#	Description: 	Wrapper shell for all Unix shell programs.
+#			This script will set up the needed environment 
+#                       for all Unix shell scripts and DW programs.
+#
+#	Environment:	Execute.ksh expects the ENVR variable to be set to 
+#			DEV, TEST, QA, or PROD etc. execute.ksh WILL FAIL IF THIS
+#			VARIABLE IS NOT SET!!!
+#
+# 	Example:        execute.ksh <Script Name> <Parmameter1> <Parameter2>  
+#
+#	Output:		Log file - sub scripts provide own output
+#
+#
+#	AUDIT TRAIL
+#	Modified By	
+#	=======================
+#	Date	  Person	Description	
+#	--------  ------------	------------------------------------------
+#	11/29/05  Mukesh Khatri Initial development.
+#
+#	10/08/14  Rajeev Desai	Added code to export SCRIPTNAME
+#
+###########################################################################
+
+###########################################################################
+# Step 1 - Echo where this script is running from.
+###########################################################################
+echo ----------------------------------------------------------------------
+echo Version of Execute.ksh:  `whence $0`
+echo ----------------------------------------------------------------------
+
+###########################################################################
+# Step 2 - Make sure ENVR is set.  If not, print the problem and exit.
+###########################################################################
+if [ ! $ENVR ]
+then
+   echo
+   echo
+   echo The variable ENVR must be set for execute.ksh to function.
+   echo ENVR must be set to DEV, TEST, QA, or PROD.  Remember that the
+   echo variable must be exported as well.  The best place to set this
+   echo variable would be in the user\'s .profile.
+   echo
+   echo
+   exit 1
+fi
+
+DB_INST=''						; export DB_INST
+
+###########################################################################
+# Step 3 - Verify that ENVR is a valid value (dev, test, qa, prod)
+###########################################################################
+ENVR=`echo $ENVR | tr [A-Z] [a-z]`
+echo
+case "$ENVR" in
+   dev)         DB_INST=""; echo Running in DEV:  $* ;;
+   test) 	DB_INST="T"; echo Running in TEST:  $* ;;
+   qa) 		DB_INST="Q"; echo Running in QA:  $* ;;
+   prod) 	DB_INST="P"; echo Running in PROD:  $* ;;
+   fit2)        DB_INST="F"; echo Running in FIT:  $* ;;
+   *) 		echo Variable \$ENVR=$ENVR is not valid. 
+   		echo Value must be: dev, test, qa, or prod.
+   		exit 1;;
+esac
+echo
+
+###########################################################################
+# Step 4 - Make sure some parameters were passed in.
+###########################################################################
+if [ $# -lt 1 ]
+then
+   echo
+   echo
+   echo execute.ksh requires parameters.
+   echo Usage:  $0 \<program/script to run\> \<program/script parameters\> ...
+   echo
+   echo
+   exit 1
+fi
+
+###########################################################################
+# Step 5 - Load the shell library.  Make sure it is found.
+###########################################################################
+whence library.ksh > /dev/null 2>&1
+#Impetus commented TODO
+# if [ $? -ne 0 ]
+# then
+   # echo
+   # echo
+   # echo The library shell script can not be found.  Make sure library.ksh
+   # echo is executable and is located somewhere PATH points. 
+   # echo
+   # echo
+   # exit 1
+# fi
+
+. library.ksh
+
+###########################################################################
+# Step 6 - Export all variables that will be set in ir_config_set_passwd.ksh.
+###########################################################################
+
+# Next set of variables refer to the DATA (CORE) database
+DIV_ID=''						; export DIV_ID
+DB_LOGON=''						; export DB_LOGON
+DB_PASSWORD=''						; export DB_PASSWORD
+DB_DATABASE=''						; export DB_DATABASE
+TMP_DATABASE=''						; export TMP_DATABASE
+MNT_DATABASE=''						; export MNT_DATABASE
+ERR_DATABASE=''             		; export ERR_DATABASE
+# Set up directories to be used by scripts
+ENVR_DIR=''
+
+###########################################################################
+# Step 7 - Load the config password shell script.  Make sure it is found.
+###########################################################################
+
+whence ir_config_set_passwd.ksh > /dev/null 2>&1
+if [ $? -ne 0 ]
+then
+   echo
+   echo
+   echo The password configuration shell script can not be found.  
+   echo Make sure ir_config_set_passwd.ksh is executable and is 
+   echo located somewhere PATH points. 
+   echo
+   echo
+   exit 1
+fi
+
+. ir_config_set_passwd.ksh
+
+###########################################################################
+# Step 8 - Set up other variables based upon what was just done.
+#          Set Directory structures with the ir_config_set_dirs.ksh script
+###########################################################################
+whence ir_config_set_dirs.ksh > /dev/null 2>&1
+ if [ $? -ne 0 ]
+ then
+    echo
+    echo
+    echo The directory configuration shell script can not be found.  
+    echo Make sure ir_config_set_dirs.ksh is executable and is 
+    echo located somewhere PATH points. 
+    echo
+    echo
+    exit 1
+ fi
+
+. ir_config_set_dirs.ksh
+
+if [ ! -f "$DIR_TEMP/DAILYJOB" ]
+then
+   echo
+   echo ERROR - $DIR_TEMP/DAILYJOB file does not exist!  
+   echo Please correct this and re-run.
+   echo
+fi
+   
+# Set up DAILYJOB
+DAILYJOB=`cat $DIR_TEMP/DAILYJOB | tr -d ' '`	; export DAILYJOB
+
+INTFC_ENVR='DEV' 				; export INTFC_ENVR
+case "$ENVR" in
+   dev)         DB_DSN=dev ;;
+   test) 	DB_DSN=test ;;
+   qa) 		DB_DSN=qa ;;
+   prod) 	DB_DSN=prod ;;
+esac
+
+export DB_DSN
+
+STARTDATE=
+STARTTIME=
+ENDDATE=
+
+ENDTIME=
+
+###########################################################################
+# Step 9 - Set the execution path.
+###########################################################################
+#Impetus Added Start
+PATH=/home/mkhatri/data/edw/${ENVR}/fix:/home/mkhatri/data/edw/${ENVR}/scripts:$DIR_FIX:$DIR_SCRIPTS:$DIR_BIN:$SNOW_EXECUTOR_HOME/bin:$PATH
+export PATH
+#Impetus Added End
+###########################################################################
+# Step 10 - Find out owner of current process.
+###########################################################################
+USERID=$LOGNAME				; export USERID
+
+###########################################################################
+# Step 11 - Get the script name and process ID (for unique log).
+###########################################################################
+CONVERTED_CODE_PATH=${ENVR_DIR}/scripts/
+export CONVERTED_CODE_PATH
+SCRIPTNAME=$1
+BASENAME=`basename $SCRIPTNAME`
+PROCID=$$
+export SCRIPTNAME
+#Impetus Added Start
+IN=$SCRIPTNAME
+BASENAME=(${IN//./ })
+SCRIPTBASEPATH=$SNOW_EXECUTOR_HOME/scripts/
+export SCRIPTBASEPATH
+#Impetus Added End
+
+###########################################################################
+# Step 12 - Find the execution directory.
+###########################################################################
+EXEDIR=`whence $SCRIPTNAME`
+EXEDIR=`dirname $EXEDIR 2> /dev/null`
+
+###########################################################################
+# Step 13 - Get all the parameters into a single variable.  
+###########################################################################
+# The first shift will eliminate the script name (first parameter)
+shift
+PARAMETERS=$*
+###########################################################################
+# Step 14 - Create a new Date directory under SYSOUT.
+#
+###########################################################################
+if [ ! -d "$DIR_SYSOUT/$DAILYJOB" ]
+then
+   mkdir $DIR_SYSOUT/$DAILYJOB
+   if [ $? -ne 0 -a $? -ne 2 ]
+      then 
+         echo ERROR - could not create directory $DIR_SYSOUT/$DAILYJOB
+         exit 1
+   fi
+fi
+
+###########################################################################
+# Step 15 - Run the script with all its parameters.  
+#           Log where it runs from.
+###########################################################################
+
+SCRIPTNAME_COPY=$SCRIPTNAME
+
+assign_audit_script_name $*
+
+SCRIPTNAME=$AUDIT_SCRIPT_NAME
+
+
+log START "$SCRIPTNAME running from $EXEDIR directory"
+if [ ! -z ${IS_AUDIT_ENABLE} ]
+then
+audit START "$SCRIPTNAME running from $EXEDIR directory"
+fi
+
+SCRIPTNAME=$SCRIPTNAME_COPY
+if [[ $SCRIPTNAME == *.xml ]]
+then
+     ksh GenericExecutor --file "$CONVERTED_CODE_PATH/$SCRIPTNAME" $PARAMETERS > $DIR_SYSOUT/$DAILYJOB/$BASENAME.$$ 2>&1
+     RETURN_CODE=$?
+else
+$CONVERTED_CODE_PATH/$SCRIPTNAME $PARAMETERS > $DIR_SYSOUT/$DAILYJOB/$BASENAME.$$ 2>&1
+#$SCRIPTNAME $PARAMETERS > $DIR_SYSOUT/$DAILYJOB/$BASENAME.$$ 2>&1
+RETURN_CODE=$?
+fi
+
+cat $DIR_SYSOUT/$DAILYJOB/$BASENAME.$$
+
+###########################################################################
+# Step 16 - Handle Return Code
+###########################################################################
+SCRIPTNAME=$AUDIT_SCRIPT_NAME
+
+if [ $RETURN_CODE -ne 0 ]
+then
+   log ERROR "$SCRIPTNAME ABENDED with Return Code $RETURN_CODE.  Running in $EXEDIR" 
+   if [ ! -z ${IS_AUDIT_ENABLE} ]
+	then
+		audit ERROR "$SCRIPTNAME ABENDED with Return Code $RETURN_CODE.  Running in $EXEDIR" "$RETURN_CODE"
+	fi   
+   exit 1
+fi
+
+###########################################################################
+# Step 17 - Log end of script.
+###########################################################################
+log END "Finished $SCRIPTNAME from directory $EXEDIR"
+if [ ! -z ${IS_AUDIT_ENABLE} ]
+then
+audit END "Finished $SCRIPTNAME from directory $EXEDIR" $RETURN_CODE
+fi
+
+

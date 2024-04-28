@@ -1,0 +1,33 @@
+
+touch topic8_comparing_files
+cat >a.txt
+cat >b.txt
+cmp a.txt b.txt
+cat >c.txt
+cmp a.txt c.txt
+diff a.txt c.txt
+diff a.txt b.txt
+diff -q a.txt b.txt
+diff -q a.txt c.txt
+diff -s a.txt c.txt
+diff -s a.txt b.txt
+diff -y a.txt b.txt
+sdiff a.txt b.txt
+diff -y --suppress-common-lines a.txt b.txt
+sudo apt install vim
+vimdiff a.txt b.txt
+vimdiff a.txt b.txt
+vimdiff a.txt b.txt
+vimdiff a.txt b.txt
+mv topic8_comparing_files topic8_comparing_files.txt
+comm a.txt b.txt
+comm a.txt c.txt
+comm -12 a.txt c.txt
+comm -1 a.txt c.txt
+comm -2 a.txt c.txt
+comm -3 a.txt c.txt
+comm -12 a.txt c.txt
+comm a.txt c.txt
+ls
+mkdir -p x/x1/x1{1,2} x/x2 y/y1/y1{1,2} y/y2
+ls
